@@ -20,7 +20,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
-    "rootDir": "src"
+    "rootDir": "src",
+    "downlevelIteration": true
   },
   "include": [
     "src"
