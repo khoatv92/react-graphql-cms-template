@@ -41,7 +41,7 @@ const client = new ApolloClient({
 });
 
 messageAntd.config({
-  maxCount: 3
+  maxCount: 1
 });
 
 const App = () => {

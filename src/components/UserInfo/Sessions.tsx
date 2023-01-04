@@ -1,7 +1,11 @@
 import React from 'react';
-import { ProList } from '@ant-design/pro-components';
+import { ProList, ProSkeleton } from '@ant-design/pro-components';
 import { Avatar, Button } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
+
+interface Props {
+  loading: boolean;
+}
 
 const dataSource = [
   {
@@ -26,49 +30,67 @@ const dataSource = [
 
 type DataItem = typeof dataSource[number];
 
-const Sessions = () => (
-  <ProList<DataItem>
-    toolBarRender={() => {
-      return [
-        <Button key="add" type="primary" danger icon={<LogoutOutlined />}>
-          Delete All
-        </Button>
-      ];
-    }}
-    rowKey="name"
-    headerTitle="You Device"
-    tooltip="Where you’re signed in"
-    dataSource={dataSource}
-    showActions="hover"
-    showExtra="hover"
-    metas={{
-      title: {
-        dataIndex: 'name'
-      },
-      avatar: {
-        dataIndex: 'image',
-        render: (_, row) => <Avatar shape="square" src={row.image} />
-      },
-      description: {
-        dataIndex: 'desc',
-        valueType: 'dateTime'
-      },
-      content: {
-        dataIndex: 'localtion'
-      },
-      actions: {
-        render: () => [
-          <Button
-            danger
-            size="small"
-            key="delete"
-            type="primary"
-            icon={<LogoutOutlined />}
-          />
-        ]
-      }
-    }}
-  />
-);
+const Sessions = ({ loading }: Props) => {
+  if (loading) {
+    return (
+      <ProSkeleton
+        pageHeader={false}
+        actionButton={false}
+        statistic={false}
+        type="list"
+      />
+    );
+  }
+
+  return (
+    <ProList<DataItem>
+      toolBarRender={() => {
+        return [
+          <Button key="add" type="primary" danger icon={<LogoutOutlined />}>
+            Delete All
+          </Button>
+        ];
+      }}
+      cardBordered
+      rowKey="name"
+      headerTitle="You Device"
+      tooltip="Where you’re signed in"
+      dataSource={dataSource}
+      pagination={{
+        pageSize: 10
+      }}
+      metas={{
+        title: {
+          dataIndex: 'name'
+        },
+        subTitle: {
+          dataIndex: 'localtion'
+        },
+        avatar: {
+          dataIndex: 'image',
+          render: (_, row) => <Avatar shape="square" src={row.image} />
+        },
+        description: {
+          dataIndex: 'desc',
+          valueType: 'dateTime'
+        },
+        content: {
+          dataIndex: 'localtion'
+        },
+        actions: {
+          render: () => [
+            <Button
+              danger
+              size="small"
+              key="delete"
+              type="primary"
+              icon={<LogoutOutlined />}
+            />
+          ]
+        }
+      }}
+    />
+  );
+};
 
 export default Sessions;

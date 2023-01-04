@@ -24,3 +24,6 @@
   padding-inline: 24px !important;
 }
 
+.proSkeleton .ant-card-body > div {
+  padding: 0 !important;
+}

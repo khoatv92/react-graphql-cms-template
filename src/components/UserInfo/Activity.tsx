@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, Typography } from 'antd';
 
-interface Props {
-  loading: boolean;
-}
+const Activity: React.FC = () => {
+  const [loading, setLoading] = useState(true);
 
-const Activity: React.FC<Props> = ({ loading }) => {
   const data = [
     '💫 Racing car sprays burning fuel into crowd.',
     '🪴 Japanese princess to wed commoner.',
@@ -23,6 +21,12 @@ const Activity: React.FC<Props> = ({ loading }) => {
     '🏄‍♀️ Man charged over missing wedding girl.',
     '🎮 Los Angeles battles huge wildfires.'
   ];
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   return (
     <List

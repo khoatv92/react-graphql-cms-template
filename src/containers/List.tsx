@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { ProList, ProSkeleton } from '@ant-design/pro-components';
 import { Avatar } from 'antd';
@@ -24,15 +23,16 @@ const List = () => {
   type DataItem = typeof data.locations[string];
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <ProList<DataItem>
+      ghost
       rowKey="id"
       headerTitle="Location"
       tooltip="List Location"
       loading={loading}
       dataSource={data.locations}
-      showActions="hover"
-      showExtra="hover"
+      pagination={{
+        pageSize: 3
+      }}
       metas={{
         title: {
           dataIndex: 'name'

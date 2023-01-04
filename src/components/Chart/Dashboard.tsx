@@ -42,10 +42,8 @@ const ChartDashboard = ({ subtitle, title }: Props) => {
 
   const options: ApexOptions = {
     chart: {
-      id: 'sparkline',
+      id: `sparkline-${subtitle}`,
       group: 'sparklines',
-      type: 'area',
-      height: 160,
       sparkline: {
         enabled: true
       }
