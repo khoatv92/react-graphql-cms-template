@@ -1,0 +1,26 @@
+.flex-center {
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: vertical;
+  -moz-box-direction: normal;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -moz-box-pack: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.text-center {
+  text-align: center;
+}
+
+[class^="ant-statistic"], [class*=" ant-statistic"] {
+  font-size: inherit;
+}
+
+.ant-pro-page-container-children-content, .ant-pro-page-container .ant-pro-page-container-warp-page-header {
+  padding-inline: 24px !important;
+}
+
