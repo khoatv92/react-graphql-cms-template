@@ -8,7 +8,7 @@ import {
   EyeOutlined
 } from '@ant-design/icons';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Drawer, Space } from 'antd';
+import { Button, Drawer, Space, Tag } from 'antd';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const valueEnum: any = {
@@ -28,9 +28,9 @@ const valueLevel: any = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const colorLevel: any = {
-  Error: '#c01',
+  Error: '#ff4d4f',
   Info: '#1677ff',
-  Debug: '#ff4d4f',
+  Debug: '#d4380d',
   Warn: '#faad14'
 };
 
@@ -123,6 +123,12 @@ const Table = () => {
         search={{
           filterType: 'light'
         }}
+        scroll={{
+          x: 'auto'
+        }}
+        pagination={{
+          pageSize: 10
+        }}
         onSubmit={(values) => console.log('values :>> ', values)}
         toolbar={{
           search: {
@@ -130,7 +136,20 @@ const Table = () => {
               console.log('object :>> ', value);
             }
           },
-          settings: []
+          settings: [
+            <Tag key="debug" icon={<CodeFilled />} color="volcano">
+              Debug: 2048
+            </Tag>,
+            <Tag key="info" icon={<InfoCircleFilled />} color="processing">
+              Info: 1024
+            </Tag>,
+            <Tag key="error" icon={<WarningFilled />} color="warning">
+              Warning: 256
+            </Tag>,
+            <Tag key="error" icon={<ExclamationCircleFilled />} color="error">
+              Error: 512
+            </Tag>
+          ]
         }}
       />
       <Drawer
