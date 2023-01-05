@@ -20,6 +20,7 @@ import ForgetPassword from 'containers/ForgetPassword';
 import Profile from 'containers/Profile';
 import NewPassword from 'containers/NewPassword';
 import List from 'containers/List';
+import Table from 'containers/Table';
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -61,6 +62,10 @@ const App = () => {
             <Route
               path="list"
               element={<PrivateLayout children={<List />} />}
+            />
+            <Route
+              path="table"
+              element={<PrivateLayout children={<Table />} />}
             />
             <Route path="/" element={<Login />} />
             <Route path="/forget" element={<ForgetPassword />} />

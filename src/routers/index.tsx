@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-  CrownFilled,
   TabletFilled,
   LoginOutlined,
-  AppstoreOutlined,
-  UserOutlined
+  AppstoreOutlined
 } from '@ant-design/icons';
 
 const AppMenu = {
@@ -22,13 +20,15 @@ const AppMenu = {
         routes: [
           {
             path: '/list',
-            name: 'List',
-            icon: <CrownFilled />
+            name: 'List'
           },
           {
             path: '/profile',
-            name: 'Profile',
-            icon: <UserOutlined />
+            name: 'Profile'
+          },
+          {
+            path: '/table',
+            name: 'Table'
           }
         ]
       },
