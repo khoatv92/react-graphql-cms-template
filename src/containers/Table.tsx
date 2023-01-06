@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ProColumns, ProDescriptions } from '@ant-design/pro-components';
+import { CopyBlock, googlecode } from 'react-code-blocks';
 import {
   ExclamationCircleFilled,
   InfoCircleFilled,
@@ -164,16 +165,18 @@ const Table = () => {
             {Date.now()}
           </ProDescriptions.Item>
           <ProDescriptions.Item label="Request">
-            <pre>
-              {JSON.stringify(
+            <CopyBlock
+              text={JSON.stringify(
                 { type: 'Fiat', model: '500', color: 'white' },
                 null,
                 2
               )}
-            </pre>
+              language="javascript"
+              theme={googlecode}
+            />
           </ProDescriptions.Item>
           <ProDescriptions.Item label="Response">
-            <pre>{res}</pre>
+            <CopyBlock text={res} language="javascript" theme={googlecode} />
           </ProDescriptions.Item>
         </ProDescriptions>
       </Drawer>
