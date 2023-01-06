@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, theme } from 'antd';
 import en_US from 'antd/es/locale/en_US';
 import { message as messageAntd } from 'antd';
 import {
@@ -45,10 +45,18 @@ messageAntd.config({
   maxCount: 1
 });
 
+const themes = localStorage.getItem('themes') || 'light';
+
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <ConfigProvider locale={en_US}>
+      <ConfigProvider
+        locale={en_US}
+        theme={{
+          algorithm:
+            themes === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm
+        }}
+      >
         <BrowserRouter>
           <Routes>
             <Route

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import {
   GithubFilled,
   InfoCircleFilled,
@@ -7,16 +7,14 @@ import {
   UserOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
-import type { ProSettings } from '@ant-design/pro-components';
 import {
   ProCard,
   PageContainer,
   ProConfigProvider,
-  ProLayout,
-  SettingDrawer
+  ProLayout
 } from '@ant-design/pro-components';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Dropdown, Space } from 'antd';
+import { Avatar, Dropdown, Space, Switch } from 'antd';
 import type { MenuProps } from 'antd';
 
 import defaultProps from 'routers';
@@ -27,13 +25,6 @@ interface IProps {
 
 const PrivateLayout = ({ children }: IProps) => {
   const navigate = useNavigate();
-  const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
-    fixSiderbar: true,
-    layout: 'mix',
-    splitMenus: false
-  });
-
-  const [pathname] = useState('/dashboard');
 
   const items: MenuProps['items'] = [
     {
@@ -49,6 +40,9 @@ const PrivateLayout = ({ children }: IProps) => {
     }
   ];
 
+  const themes = localStorage.getItem('themes') || 'light';
+  const checked = themes == 'light' ? false : true;
+
   return (
     <div
       id="test-pro-layout"
@@ -59,6 +53,7 @@ const PrivateLayout = ({ children }: IProps) => {
       <ProConfigProvider hashed={false}>
         <ProLayout
           {...defaultProps}
+          layout="mix"
           menu={{
             collapsedShowGroupTitle: true
           }}
@@ -66,6 +61,16 @@ const PrivateLayout = ({ children }: IProps) => {
           logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
           actionsRender={() => {
             return [
+              <Switch
+                key="themes"
+                checkedChildren="Dark"
+                unCheckedChildren="Light"
+                onChange={(value) => {
+                  localStorage.setItem('themes', value ? 'dark' : 'light');
+                  window.location.reload();
+                }}
+                defaultChecked={checked}
+              />,
               <InfoCircleFilled key="InfoCircleFilled" />,
               <QuestionCircleFilled key="QuestionCircleFilled" />,
               <GithubFilled key="GithubFilled" />,
@@ -108,19 +113,17 @@ const PrivateLayout = ({ children }: IProps) => {
           menuItemRender={(item, dom) => (
             <div
               onClick={() => {
-                console.log('object :>> ', item);
                 navigate(item.path as string);
               }}
             >
               {dom}
             </div>
           )}
-          {...settings}
         >
           <PageContainer>
             <ProCard>{children}</ProCard>
           </PageContainer>
-          <SettingDrawer
+          {/* <SettingDrawer
             pathname={pathname}
             enableDarkTheme
             getContainer={() => document.getElementById('test-pro-layout')}
@@ -129,7 +132,7 @@ const PrivateLayout = ({ children }: IProps) => {
               setSetting(changeSetting);
             }}
             disableUrlParams={false}
-          />
+          /> */}
         </ProLayout>
       </ProConfigProvider>
     </div>
