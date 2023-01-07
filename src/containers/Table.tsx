@@ -80,7 +80,8 @@ const Table = () => {
     {
       title: 'Time',
       dataIndex: 'time',
-      valueType: 'date'
+      valueType: 'date',
+      initialValue: new Date()
     },
     {
       title: 'Env',
@@ -126,9 +127,6 @@ const Table = () => {
         }}
         scroll={{
           x: 'auto'
-        }}
-        pagination={{
-          pageSize: 10
         }}
         onSubmit={(values) => console.log('values :>> ', values)}
         toolbar={{

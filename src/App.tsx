@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider } from 'antd';
 import en_US from 'antd/es/locale/en_US';
 import { message as messageAntd } from 'antd';
 import {
@@ -21,6 +21,7 @@ import Profile from 'containers/Profile';
 import NewPassword from 'containers/NewPassword';
 import List from 'containers/List';
 import Table from 'containers/Table';
+import { AppContextProvider } from 'AppContext';
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -37,7 +38,6 @@ const httpLink = new HttpLink({ uri: 'https://flyby-gateway.herokuapp.com' });
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-
   link: from([errorLink, httpLink])
 });
 
@@ -45,41 +45,42 @@ messageAntd.config({
   maxCount: 1
 });
 
-const themes = localStorage.getItem('themes') || 'light';
-
 const App = () => {
   return (
     <ApolloProvider client={client}>
       <ConfigProvider
         locale={en_US}
         theme={{
-          algorithm:
-            themes === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm
+          token: {
+            colorPrimary: '#00b96b'
+          }
         }}
       >
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="dashboard"
-              element={<PrivateLayout children={<Index />} />}
-            />
-            <Route
-              path="profile"
-              element={<PrivateLayout children={<Profile />} />}
-            />
-            <Route
-              path="list"
-              element={<PrivateLayout children={<List />} />}
-            />
-            <Route
-              path="table"
-              element={<PrivateLayout children={<Table />} />}
-            />
-            <Route path="/" element={<Login />} />
-            <Route path="/forget" element={<ForgetPassword />} />
-            <Route path="/password" element={<NewPassword />} />
-          </Routes>
-        </BrowserRouter>
+        <AppContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="dashboard"
+                element={<PrivateLayout children={<Index />} />}
+              />
+              <Route
+                path="profile"
+                element={<PrivateLayout children={<Profile />} />}
+              />
+              <Route
+                path="list"
+                element={<PrivateLayout children={<List />} />}
+              />
+              <Route
+                path="table"
+                element={<PrivateLayout children={<Table />} />}
+              />
+              <Route path="/" element={<Login />} />
+              <Route path="/forget" element={<ForgetPassword />} />
+              <Route path="/password" element={<NewPassword />} />
+            </Routes>
+          </BrowserRouter>
+        </AppContextProvider>
       </ConfigProvider>
     </ApolloProvider>
   );

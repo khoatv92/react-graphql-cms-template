@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   GithubFilled,
   InfoCircleFilled,
@@ -18,6 +18,7 @@ import { Avatar, Dropdown, Space, Switch } from 'antd';
 import type { MenuProps } from 'antd';
 
 import defaultProps from 'routers';
+import { useAppContext } from 'AppContext';
 
 interface IProps {
   children: ReactNode;
@@ -25,6 +26,9 @@ interface IProps {
 
 const PrivateLayout = ({ children }: IProps) => {
   const navigate = useNavigate();
+  const appContext = useAppContext();
+
+  const [dark, setDark] = useState<boolean>(appContext.darkMode);
 
   const items: MenuProps['items'] = [
     {
@@ -40,9 +44,6 @@ const PrivateLayout = ({ children }: IProps) => {
     }
   ];
 
-  const themes = localStorage.getItem('themes') || 'light';
-  const checked = themes == 'light' ? false : true;
-
   return (
     <div
       id="test-pro-layout"
@@ -50,7 +51,7 @@ const PrivateLayout = ({ children }: IProps) => {
         height: '100vh'
       }}
     >
-      <ProConfigProvider hashed={false}>
+      <ProConfigProvider dark={dark}>
         <ProLayout
           {...defaultProps}
           layout="mix"
@@ -66,10 +67,10 @@ const PrivateLayout = ({ children }: IProps) => {
                 checkedChildren="Dark"
                 unCheckedChildren="Light"
                 onChange={(value) => {
-                  localStorage.setItem('themes', value ? 'dark' : 'light');
-                  window.location.reload();
+                  setDark(value);
+                  appContext.changeTheme(value);
                 }}
-                defaultChecked={checked}
+                defaultChecked={dark}
               />,
               <InfoCircleFilled key="InfoCircleFilled" />,
               <QuestionCircleFilled key="QuestionCircleFilled" />,
