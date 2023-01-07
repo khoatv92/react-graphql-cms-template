@@ -142,7 +142,7 @@ const Table = () => {
             <Tag key="info" icon={<InfoCircleFilled />} color="processing">
               Info: 1024
             </Tag>,
-            <Tag key="error" icon={<WarningFilled />} color="warning">
+            <Tag key="warning" icon={<WarningFilled />} color="warning">
               Warning: 256
             </Tag>,
             <Tag key="error" icon={<ExclamationCircleFilled />} color="error">
@@ -152,7 +152,7 @@ const Table = () => {
         }}
       />
       <Drawer
-        width="50%"
+        width="auto"
         placement="right"
         title="Detail"
         onClose={onClose}

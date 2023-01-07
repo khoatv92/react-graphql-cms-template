@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { List, Typography } from 'antd';
+import { ProList, ProSkeleton } from '@ant-design/pro-components';
 
-const Activity: React.FC = () => {
+export type ListItem = {
+  name: string;
+  icon: string;
+  time: number;
+};
+const listDataSource: ListItem[] = [];
+
+for (let i = 0; i < 100; i += 1) {
+  listDataSource.push({
+    name: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+    time: Date.now() - Math.floor(Math.random() * 100000),
+    icon: '🍀'
+  });
+}
+
+const Activity = () => {
   const [loading, setLoading] = useState(true);
-
-  const data = [
-    '💫 Racing car sprays burning fuel into crowd.',
-    '🪴 Japanese princess to wed commoner.',
-    '⛹️‍♀️ Australian walks 100km after outback crash.',
-    '🏄‍♀️ Man charged over missing wedding girl.',
-    '🎮 Los Angeles battles huge wildfires.',
-    '💫 Racing car sprays burning fuel into crowd.',
-    '🪴 Japanese princess to wed commoner.',
-    '⛹️‍♀️ Australian walks 100km after outback crash.',
-    '🏄‍♀️ Man charged over missing wedding girl.',
-    '🎮 Los Angeles battles huge wildfires.',
-    '💫 Racing car sprays burning fuel into crowd.',
-    '🪴 Japanese princess to wed commoner.',
-    '⛹️‍♀️ Australian walks 100km after outback crash.',
-    '🏄‍♀️ Man charged over missing wedding girl.',
-    '🎮 Los Angeles battles huge wildfires.'
-  ];
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,20 +25,57 @@ const Activity: React.FC = () => {
     }, 2000);
   }, []);
 
+  if (loading) {
+    return (
+      <ProSkeleton
+        toolbar={false}
+        pageHeader={false}
+        actionButton={false}
+        statistic={false}
+        type="list"
+      />
+    );
+  }
+
   return (
-    <List
-      loading={loading}
-      bordered
-      dataSource={data}
-      pagination={{
-        pageSize: 10
-      }}
-      renderItem={(item) => (
-        <List.Item>
-          <Typography.Text mark>[01/12/2022 15:00]</Typography.Text> {item}
-        </List.Item>
-      )}
-    />
+    <>
+      <ProList<ListItem>
+        ghost
+        rowKey="name"
+        dataSource={listDataSource}
+        search={{
+          filterType: 'light'
+        }}
+        pagination={{
+          defaultPageSize: 10
+        }}
+        onSubmit={(values) => console.log('values :>> ', values)}
+        metas={{
+          title: {
+            dataIndex: 'name',
+            search: false
+          },
+          avatar: {
+            dataIndex: 'icon',
+            valueType: 'text',
+            title: 'ss',
+            search: false
+          },
+          description: {
+            title: 'description',
+            dataIndex: 'time',
+            valueType: 'dateTime',
+            search: false
+          },
+          subTitle: {
+            render: () => <span></span>,
+            title: 'Time',
+            dataIndex: 'time',
+            valueType: 'dateWeek'
+          }
+        }}
+      />
+    </>
   );
 };
 

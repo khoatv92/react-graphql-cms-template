@@ -25,6 +25,60 @@ const dataSource = [
     image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
     desc: '2022-10-13 02:22:48.824+00',
     localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'Mac OS',
+    image: 'https://cdn-icons-png.flaticon.com/128/2344/2344269.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'IPhone 14 ProMax',
+    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'S22 Ultra',
+    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'Mac OS',
+    image: 'https://cdn-icons-png.flaticon.com/128/2344/2344269.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'IPhone 14 ProMax',
+    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'S22 Ultra',
+    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'Mac OS',
+    image: 'https://cdn-icons-png.flaticon.com/128/2344/2344269.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'IPhone 14 ProMax',
+    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
+  },
+  {
+    name: 'S22 Ultra',
+    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
+    desc: '2022-10-13 02:22:48.824+00',
+    localtion: 'Hanoi, VietNam'
   }
 ];
 
@@ -44,6 +98,7 @@ const Sessions = ({ loading }: Props) => {
 
   return (
     <ProList<DataItem>
+      style={{ maxHeight: 345, overflow: 'auto' }}
       toolBarRender={() => {
         return [
           <Button key="add" type="primary" danger icon={<LogoutOutlined />}>
@@ -56,9 +111,7 @@ const Sessions = ({ loading }: Props) => {
       headerTitle="You Device"
       tooltip="Where you’re signed in"
       dataSource={dataSource}
-      pagination={{
-        pageSize: 10
-      }}
+      pagination={false}
       metas={{
         title: {
           dataIndex: 'name'
