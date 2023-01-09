@@ -5,6 +5,7 @@ import { ConfigProvider, Skeleton, Result } from 'antd';
 import en_US from 'antd/es/locale/en_US';
 import { message as messageAntd } from 'antd';
 import { useLocation } from 'react-router-dom';
+import { faker } from '@faker-js/faker';
 import {
   ApolloClient,
   HttpLink,
@@ -15,7 +16,7 @@ import {
 import { onError } from '@apollo/client/link/error';
 
 import PrivateLayout from 'components/layouts/Private';
-import { AppContextProvider } from 'AppContext';
+import { useAppContext } from 'AppContext';
 
 const Index = lazy(() => sleep(1000).then(() => import('containers/Index')));
 const Table = lazy(() => sleep(1000).then(() => import('containers/Table')));
@@ -61,14 +62,18 @@ const sleep = (ms: number) => {
 
 const App = () => {
   const location = useLocation();
+  const appContext = useAppContext();
   const signed = sessionStorage.getItem('signed');
 
   useEffect(() => {
     if (!signed && location.pathname !== '/') {
       window.location.href = '/';
     }
-    if (signed && location.pathname === '/') {
-      window.location.href = '/dashboard';
+    if (signed) {
+      appContext.setUserInfo(faker.name.fullName());
+      if (location.pathname === '/') {
+        window.location.href = '/dashboard';
+      }
     }
   }, []);
 
@@ -82,39 +87,37 @@ const App = () => {
           }
         }}
       >
-        <AppContextProvider>
-          {signed ? (
-            <PrivateLayout>
-              <Suspense fallback={<Skeleton />}>
-                <Routes>
-                  <Route path="dashboard" element={<Index />} />
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="list" element={<List />} />
-                  <Route path="table" element={<Table />} />
-                  <Route
-                    path="*"
-                    element={
-                      <Result
-                        status="404"
-                        title="404"
-                        subTitle="Sorry, the page you visited does not exist."
-                      />
-                    }
-                  />
-                </Routes>
-              </Suspense>
-            </PrivateLayout>
-          ) : (
+        {signed ? (
+          <PrivateLayout>
             <Suspense fallback={<Skeleton />}>
               <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="forget" element={<ForgetPassword />} />
-                <Route path="password" element={<NewPassword />} />
-                <Route path="*" element={<Login />} />
+                <Route path="dashboard" element={<Index />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="list" element={<List />} />
+                <Route path="table" element={<Table />} />
+                <Route
+                  path="*"
+                  element={
+                    <Result
+                      status="404"
+                      title="404"
+                      subTitle="Sorry, the page you visited does not exist."
+                    />
+                  }
+                />
               </Routes>
             </Suspense>
-          )}
-        </AppContextProvider>
+          </PrivateLayout>
+        ) : (
+          <Suspense fallback={<Skeleton />}>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="forget" element={<ForgetPassword />} />
+              <Route path="password" element={<NewPassword />} />
+              <Route path="*" element={<Login />} />
+            </Routes>
+          </Suspense>
+        )}
       </ConfigProvider>
     </ApolloProvider>
   );

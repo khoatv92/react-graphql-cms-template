@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ProColumns, ProDescriptions } from '@ant-design/pro-components';
 import { CopyBlock, googlecode } from 'react-code-blocks';
+import { faker } from '@faker-js/faker';
 import {
   ExclamationCircleFilled,
   InfoCircleFilled,
@@ -38,7 +39,7 @@ const colorLevel: any = {
 export type TableListItem = {
   key: number;
   level: string;
-  time: number;
+  time: Date;
   env: string;
   message: string;
 };
@@ -48,10 +49,9 @@ for (let i = 0; i < 100; i += 1) {
   tableListDataSource.push({
     key: i,
     level: valueEnum[Math.floor(Math.random() * 10) % 4],
-    time: Date.now() - Math.floor(Math.random() * 100000),
+    time: faker.datatype.datetime(),
     env: 'local',
-    message:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est, nesciunt minima deleniti labore harum aliquid amet accusamus.'
+    message: faker.lorem.text()
   });
 }
 

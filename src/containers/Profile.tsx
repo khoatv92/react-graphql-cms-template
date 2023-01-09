@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Avatar, Tabs, Row, Col } from 'antd';
 import { ProDescriptions, ProSkeleton } from '@ant-design/pro-components';
+import { faker } from '@faker-js/faker';
 
 import Settings from 'components/UserInfo/Settings';
 import Activity from 'components/UserInfo/Activity';
@@ -40,11 +41,11 @@ const Profile: React.FC = () => {
           <Card>
             <div className="text-center">
               <Avatar size={64} src="https://i.pravatar.cc/300" />
-              <h4>John</h4>
+              <h4>{faker.name.fullName()}</h4>
             </div>
             <ProDescriptions column={1} bordered>
               <ProDescriptions.Item label="Email">
-                johncaster@mail.com
+                {faker.internet.email()}
               </ProDescriptions.Item>
               <ProDescriptions.Item label="Created at" valueType="dateTime">
                 2022-10-13 02:22:48.824+00
@@ -68,17 +69,6 @@ const Profile: React.FC = () => {
                 }}
               >
                 processing
-              </ProDescriptions.Item>
-              <ProDescriptions.Item
-                label="Active"
-                request={async () => [
-                  { label: 'All', value: 'all' },
-                  { label: 'open', value: 'open' },
-                  { label: 'closed', value: 'closed' },
-                  { label: 'processing', value: 'processing' }
-                ]}
-              >
-                closed
               </ProDescriptions.Item>
               <ProDescriptions.Item label="Percent" valueType="progress">
                 40

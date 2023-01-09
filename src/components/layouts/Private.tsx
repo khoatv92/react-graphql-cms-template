@@ -78,7 +78,7 @@ const PrivateLayout = ({ children }: IProps) => {
               <Dropdown key="dd" menu={{ items }} trigger={['click']}>
                 <Space style={{ height: 50 }}>
                   <Avatar src="https://i.pravatar.cc/300" />
-                  John Caster
+                  {appContext.userName}
                 </Space>
               </Dropdown>
             ];

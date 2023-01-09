@@ -1,14 +1,18 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 
 interface AppContextType {
   darkMode: boolean;
-  // eslint-disable-next-line no-unused-vars
   changeTheme: (value: boolean) => void;
+  setUserInfo: (value: string) => void;
+  userName: string;
 }
 
 export const AppContext = React.createContext<AppContextType>({
   darkMode: false,
-  changeTheme: () => null
+  userName: '',
+  changeTheme: () => null,
+  setUserInfo: () => null
 });
 
 interface Props {
@@ -20,15 +24,25 @@ export const AppContextProvider = ({ children }: Props) => {
   const checked = themes == 'dark' ? true : false;
 
   const [darkMode, setDarkMode] = useState<boolean>(checked);
+  const [userName, setUserName] = useState<string>(
+    localStorage.getItem('userName') || ''
+  );
 
   const changeTheme = (value: boolean) => {
     localStorage.setItem('themes', value ? 'dark' : 'light');
     setDarkMode(value);
   };
 
+  const setUserInfo = (value: string) => {
+    localStorage.setItem('userName', value);
+    setUserName(value);
+  };
+
   const value: AppContextType = {
     darkMode: darkMode,
-    changeTheme
+    changeTheme,
+    userName,
+    setUserInfo
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

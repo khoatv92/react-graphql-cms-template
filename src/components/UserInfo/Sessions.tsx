@@ -2,85 +2,34 @@ import React from 'react';
 import { ProList, ProSkeleton } from '@ant-design/pro-components';
 import { Avatar, Button } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
+import { faker } from '@faker-js/faker';
+import parser, { IResult } from 'ua-parser-js';
 
 interface Props {
   loading: boolean;
 }
 
-const dataSource = [
-  {
-    name: 'Mac OS',
+export type TableListItem = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  device: IResult;
+  ip: string;
+  id: string;
+  image: string;
+  desc: Date;
+  localtion: string;
+};
+const dataSource: TableListItem[] = [];
+
+for (let i = 0; i < 100; i += 1) {
+  dataSource.push({
+    ip: faker.internet.ip(),
+    id: faker.datatype.uuid(),
+    device: parser(faker.internet.userAgent()),
     image: 'https://cdn-icons-png.flaticon.com/128/2344/2344269.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'IPhone 14 ProMax',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'S22 Ultra',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'Mac OS',
-    image: 'https://cdn-icons-png.flaticon.com/128/2344/2344269.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'IPhone 14 ProMax',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'S22 Ultra',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'Mac OS',
-    image: 'https://cdn-icons-png.flaticon.com/128/2344/2344269.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'IPhone 14 ProMax',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'S22 Ultra',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'Mac OS',
-    image: 'https://cdn-icons-png.flaticon.com/128/2344/2344269.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'IPhone 14 ProMax',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  },
-  {
-    name: 'S22 Ultra',
-    image: 'https://cdn-icons-png.flaticon.com/128/545/545245.png',
-    desc: '2022-10-13 02:22:48.824+00',
-    localtion: 'Hanoi, VietNam'
-  }
-];
+    desc: faker.datatype.datetime(),
+    localtion: `${faker.address.cityName()} - ${faker.address.country()}`
+  });
+}
 
 type DataItem = typeof dataSource[number];
 
@@ -114,10 +63,15 @@ const Sessions = ({ loading }: Props) => {
       pagination={false}
       metas={{
         title: {
-          dataIndex: 'name'
+          dataIndex: 'device',
+          render: (_, row) => (
+            <>
+              {row.device.os.name} ({row.device.browser.name})
+            </>
+          )
         },
         subTitle: {
-          dataIndex: 'localtion'
+          dataIndex: 'ip'
         },
         avatar: {
           dataIndex: 'image',

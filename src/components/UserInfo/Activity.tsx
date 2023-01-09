@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ProList, ProSkeleton } from '@ant-design/pro-components';
+import { faker } from '@faker-js/faker';
 
 export type ListItem = {
   name: string;
@@ -10,9 +11,9 @@ const listDataSource: ListItem[] = [];
 
 for (let i = 0; i < 100; i += 1) {
   listDataSource.push({
-    name: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+    name: faker.lorem.lines(),
     time: Date.now() - Math.floor(Math.random() * 100000),
-    icon: '🍀'
+    icon: faker.internet.emoji()
   });
 }
 
