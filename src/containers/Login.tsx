@@ -6,10 +6,9 @@ import {
   ProFormText
 } from '@ant-design/pro-components';
 import { Button, Spin } from 'antd';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   return (
     <div className="flex-center">
@@ -26,9 +25,10 @@ const Login = () => {
           }}
           onFinish={async (values) => {
             console.log(values);
+            sessionStorage.setItem('signed', 'yes');
             setLoading(true);
             setTimeout(() => {
-              navigate('/dashboard');
+              window.location.href = '/dashboard';
             }, 2000);
           }}
           logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"

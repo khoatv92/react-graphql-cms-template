@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  TabletFilled,
-  LoginOutlined,
-  AppstoreOutlined
-} from '@ant-design/icons';
+import { TabletFilled, AppstoreOutlined } from '@ant-design/icons';
 
 const AppMenu = {
   route: {
@@ -31,11 +27,6 @@ const AppMenu = {
             name: 'Table'
           }
         ]
-      },
-      {
-        path: '/',
-        name: 'Login',
-        icon: <LoginOutlined />
       }
     ]
   }

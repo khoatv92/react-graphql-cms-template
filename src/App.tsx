@@ -1,9 +1,10 @@
 /* eslint-disable react/no-children-prop */
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { ConfigProvider, Skeleton, Result } from 'antd';
 import en_US from 'antd/es/locale/en_US';
 import { message as messageAntd } from 'antd';
+import { useLocation } from 'react-router-dom';
 import {
   ApolloClient,
   HttpLink,
@@ -13,15 +14,22 @@ import {
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
-import Index from 'containers/Index';
 import PrivateLayout from 'components/layouts/Private';
-import Login from 'containers/Login';
-import ForgetPassword from 'containers/ForgetPassword';
-import Profile from 'containers/Profile';
-import NewPassword from 'containers/NewPassword';
-import List from 'containers/List';
-import Table from 'containers/Table';
 import { AppContextProvider } from 'AppContext';
+
+const Index = lazy(() => sleep(1000).then(() => import('containers/Index')));
+const Table = lazy(() => sleep(1000).then(() => import('containers/Table')));
+const List = lazy(() => sleep(1000).then(() => import('containers/List')));
+const Profile = lazy(() =>
+  sleep(1000).then(() => import('containers/Profile'))
+);
+const NewPassword = lazy(() =>
+  sleep(1000).then(() => import('containers/NewPassword'))
+);
+const ForgetPassword = lazy(() =>
+  sleep(1000).then(() => import('containers/ForgetPassword'))
+);
+const Login = lazy(() => sleep(1000).then(() => import('containers/Login')));
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -45,7 +53,25 @@ messageAntd.config({
   maxCount: 1
 });
 
+const sleep = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
+
 const App = () => {
+  const location = useLocation();
+  const signed = sessionStorage.getItem('signed');
+
+  useEffect(() => {
+    if (!signed && location.pathname !== '/') {
+      window.location.href = '/';
+    }
+    if (signed && location.pathname === '/') {
+      window.location.href = '/dashboard';
+    }
+  }, []);
+
   return (
     <ApolloProvider client={client}>
       <ConfigProvider
@@ -57,29 +83,37 @@ const App = () => {
         }}
       >
         <AppContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route
-                path="dashboard"
-                element={<PrivateLayout children={<Index />} />}
-              />
-              <Route
-                path="profile"
-                element={<PrivateLayout children={<Profile />} />}
-              />
-              <Route
-                path="list"
-                element={<PrivateLayout children={<List />} />}
-              />
-              <Route
-                path="table"
-                element={<PrivateLayout children={<Table />} />}
-              />
-              <Route path="/" element={<Login />} />
-              <Route path="/forget" element={<ForgetPassword />} />
-              <Route path="/password" element={<NewPassword />} />
-            </Routes>
-          </BrowserRouter>
+          {signed ? (
+            <PrivateLayout>
+              <Suspense fallback={<Skeleton />}>
+                <Routes>
+                  <Route path="dashboard" element={<Index />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="list" element={<List />} />
+                  <Route path="table" element={<Table />} />
+                  <Route
+                    path="*"
+                    element={
+                      <Result
+                        status="404"
+                        title="404"
+                        subTitle="Sorry, the page you visited does not exist."
+                      />
+                    }
+                  />
+                </Routes>
+              </Suspense>
+            </PrivateLayout>
+          ) : (
+            <Suspense fallback={<Skeleton />}>
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="forget" element={<ForgetPassword />} />
+                <Route path="password" element={<NewPassword />} />
+                <Route path="*" element={<Login />} />
+              </Routes>
+            </Suspense>
+          )}
         </AppContextProvider>
       </ConfigProvider>
     </ApolloProvider>
